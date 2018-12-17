@@ -23,6 +23,7 @@ var controlers = {
         project.category = params.category;
         project.year = params.year;
         project.langs = params.langs;
+        project.image = null;
 
         project.save((err,projectStored)=>{
             if (err) return res.status(500).send({message:'Error al guardar 500'});
@@ -50,6 +51,47 @@ var controlers = {
             if (!projects) return res.status(404).send({message:"Error 404"});
             return res.status(200).send({projects: projects});
         });
+    },
+
+    updateProject: function(req,res){
+        var projectId = req.params.id;
+        var update = req.body;
+
+        /* Project.findByIdAndUpdate(projectId,update,(err,projectUpdated)=>{ */
+        Project.findByIdAndUpdate(projectId,update,{new:true},(err,projectUpdated)=>{
+            if (err) return res.status(500).send({message:"Error 500"});
+            if (!projectUpdated) return res.status(404).send({message: "Error 404"});
+            return res.status(200).send({projectUpdated:projectUpdated});
+        });
+    },
+
+    deleteProject: function(req,res){
+        var projectId = req.params.id;
+
+        Project.findByIdAndRemove(projectId,(err,projectDeleted)=>{
+            if (err) return res.status(500).send({message:"Error 500"});
+            if (!projectDeleted) return res.status(404).send({message: "Error 404"});
+            return res.status(200).send({projectDeleted:projectDeleted});
+        })
+    },
+
+    uploadImage: function(req,res){
+        var projectId = req.params.id;
+
+        if (req.files){
+            var filePath = req.files.file.path;
+            var fileSplit = filePath.split('\\');
+            var fileName = fileSplit[1];
+
+            Project.findByIdAndUpdate(projectId,{image:fileName},{new:true},(err,imageUpload)=>{
+                if (err) return res.status(500).send({message:"Error 500"});
+                if (!imageUpload) return res.status(404).send({message: "Error 404"});
+                return res.status(200).send({image:fileName});
+            });
+        }
+        else {
+            return res.status(200).send({message:"imagen no subida"});
+        }
     }
 }
 
