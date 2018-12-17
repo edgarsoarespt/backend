@@ -20,11 +20,7 @@ app.use('/api',project_routes);
 var ProjectControler = require('./controlers/project');
 app.get('/api/fabian',ProjectControler.fabian);
 app.get('/api/julian',ProjectControler.julian);
-/* app.get('/',(req,res) => {
-    res.status(200).send(
-        "<h1>pagina de inicio</h1>"
-    );
-});*/
+
 
 app.get('/api/php',(req,res) => {
     res.status(200).send(
