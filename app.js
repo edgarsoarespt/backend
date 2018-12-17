@@ -17,6 +17,7 @@ app.use(bodyParser.json());
 //rutas
 app.use('/api',project_routes);
 
+/*
 var ProjectControler = require('./controlers/project');
 app.get('/api/fabian',ProjectControler.fabian);
 app.get('/api/julian',ProjectControler.julian);
@@ -29,7 +30,7 @@ app.get('/api/php',(req,res) => {
        }
     );
 });
-/*
+
 app.post('/test/:id',(req,res) => {
     console.log(req.param('nombre')); //parametros dentro del body - descontinuado
     console.log(req.body.nombre); //parametros dentro del body
